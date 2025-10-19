@@ -1419,7 +1419,7 @@ def renderRoute(route):
         this.labels.resource["text"] = ITEMS.get(route.resource, route.resource)
         this.labels.demand["text"] = demandText
         if route.resource in ITEMS_ID:
-            item_url = f"https://inara.cz/elite/commodities/?formbrief=1&pi1=1&pa1[]={quote(ITEMS_ID.get(route.resource, route.resource))}&ps1={quote(route.system_name)}&pi10=3&pi11={config.get(this.PREFNAME_MAX_ROUTE_DISTANCE)}&pi3={config.get(this.PREFNAME_LANDING_PAD)}&pi9={config.get(this.PREFNAME_MAX_STATION_DISTANCE)}&pi4={config.get(this.PREFNAME_INCLUDE_SURFACES)}&pi8={cariers}&pi13=2&pi5={config.get(this.PREFNAME_MAX_PRICE_AGE)}&pi12=0&pi7={config.get(this.PREFNAME_MIN_SUPPLY)}&pi14=0&ps3="
+            item_url = f"https://inara.cz/elite/commodities/?formbrief=1&pi1=1&pa1[]={quote(ITEMS_ID.get(route.resource, route.resource))}&ps1={quote(this.STAR_SYSTEM)}&pi10=3&pi11={config.get(this.PREFNAME_MAX_ROUTE_DISTANCE)}&pi3={config.get(this.PREFNAME_LANDING_PAD)}&pi9={config.get(this.PREFNAME_MAX_STATION_DISTANCE)}&pi4={config.get(this.PREFNAME_INCLUDE_SURFACES)}&pi8={cariers}&pi13=2&pi5={config.get(this.PREFNAME_MAX_PRICE_AGE)}&pi12=0&pi7={config.get(this.PREFNAME_MIN_SUPPLY)}&pi14=0&ps3="
             this.labels.resource["url"] = item_url
         else:
             this.labels.resource["url"] = f"https://elite-dangerous.fandom.com/wiki/{quote(route.resource)}"
