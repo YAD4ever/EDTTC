@@ -307,6 +307,264 @@ ITEMS = dict([
     ("Tritium", "Тритий"),
 ])
 
+ITEMS_ID = dict([
+    ("Agronomic Treatment", "10268"),
+    ("Explosives", "3"),
+    ("Hydrogen Fuel", "4"),
+    ("Hydrogen Peroxide", "138"),
+    ("Liquid oxygen", "137"),
+    ("Mineral Oil", "5"),
+    ("Nerve Agents", "96"),
+    ("Pesticides", "6"),
+    ("Rockforth Fertiliser", "10264"),
+    ("Surface Stabilisers", "97"),
+    ("Synthetic Reagents", "98"),
+    ("Tritium", "10269"),
+    ("Water", "139"),
+    ("Clothing", "7"),
+    ("Consumer Technology", "8"),
+    ("Domestic Appliances", "9"),
+    ("Evacuation Shelter", "99"),
+    ("Survival Equipment", "164"),
+    ("Beer", "10"),
+    ("Bootleg Liquor", "95"),
+    ("Liquor", "11"),
+    ("Narcotics", "12"),
+    ("Onionhead Gamma Strain", "10435"),
+    ("Tobacco", "13"),
+    ("Wine", "14"),
+    ("Algae", "15"),
+    ("Animal Meat", "16"),
+    ("Coffee", "17"),
+    ("Fish", "18"),
+    ("Food Cartridges", "19"),
+    ("Fruit and Vegetables", "20"),
+    ("Grain", "21"),
+    ("Synthetic Meat", "23"),
+    ("Tea", "22"),
+    ("Ceramic Composites", "100"),
+    ("CMM Composite", "140"),
+    ("Insulating Membrane", "141"),
+    ("Meta-Alloys", "101"),
+    ("Micro-weave Cooling Hoses", "185"),
+    ("Neofabric Insulation", "183"),
+    ("Polymers", "26"),
+    ("Semiconductors", "28"),
+    ("Superconductors", "27"),
+    ("Articulation Motors", "182"),
+    ("Atmospheric Processors", "87"),
+    ("Building Fabricators", "102"),
+    ("Crop Harvesters", "29"),
+    ("Emergency Power Cells", "158"),
+    ("Energy Grid Assembly", "149"),
+    ("Exhaust Manifold", "159"),
+    ("Geological Equipment", "103"),
+    ("Heatsink Interlink", "151"),
+    ("HN Shock Mount", "150"),
+    ("Ion Distributor", "160"),
+    ("Magnetic Emitter Coil", "152"),
+    ("Marine Equipment", "86"),
+    ("Microbial Furnaces", "85"),
+    ("Mineral Extractors", "31"),
+    ("Modular Terminals", "181"),
+    ("Power Converter", "153"),
+    ("Power Generators", "83"),
+    ("Power Transfer Bus", "161"),
+    ("Radiation Baffle", "162"),
+    ("Reinforced Mounting Plate", "163"),
+    ("Skimmer Components", "104"),
+    ("Thermal Cooling Units", "105"),
+    ("Water Purifiers", "82"),
+    ("Advanced Medicines", "166"),
+    ("Agri-Medicines", "1"),
+    ("Basic Medicines", "33"),
+    ("Combat Stabilisers", "34"),
+    ("Performance Enhancers", "35"),
+    ("Progenitor Cells", "36"),
+    ("Aluminium", "37"),
+    ("Beryllium", "38"),
+    ("Bismuth", "106"),
+    ("Cobalt", "39"),
+    ("Copper", "40"),
+    ("Gallium", "41"),
+    ("Gold", "42"),
+    ("Hafnium 178", "124"),
+    ("Indium", "43"),
+    ("Lanthanum", "107"),
+    ("Lithium", "44"),
+    ("Osmium", "72"),
+    ("Palladium", "45"),
+    ("Platinum", "81"),
+    ("Praseodymium", "143"),
+    ("Samarium", "142"),
+    ("Silver", "46"),
+    ("Steel", "10487"),
+    ("Tantalum", "47"),
+    ("Thallium", "108"),
+    ("Thorium", "109"),
+    ("Titanium", "48"),
+    ("Uranium", "50"),
+    ("Alexandrite", "10249"),
+    ("Bauxite", "51"),
+    ("Benitoite", "10247"),
+    ("Bertrandite", "52"),
+    ("Bromellite", "148"),
+    ("Coltan", "55"),
+    ("Cryolite", "110"),
+    ("Gallite", "56"),
+    ("Goslarite", "111"),
+    ("Grandidierite", "10248"),
+    ("Haematite", "10486"),
+    ("Indite", "57"),
+    ("Jadeite", "168"),
+    ("Lepidolite", "58"),
+    ("Lithium Hydroxide", "147"),
+    ("Low Temperature Diamonds", "144"),
+    ("Methane Clathrate", "145"),
+    ("Methanol Monohydrate Crystals", "146"),
+    ("Moissanite", "116"),
+    ("Monazite", "10245"),
+    ("Musgravite", "10246"),
+    ("Painite", "84"),
+    ("Pyrophyllite", "112"),
+    ("Rhodplumsite", "10243"),
+    ("Rutile", "59"),
+    ("Serendibite", "10244"),
+    ("Taaffeite", "120"),
+    ("Uraninite", "60"),
+    ("Void Opal", "10250"),
+    ("AI Relics", "89"),
+    ("Ancient Artefact", "121"),
+    ("Ancient Key", "10240"),
+    ("Anomaly Particles", "10270"),
+    ("Antimatter Containment Unit", "10167"),
+    ("Antique Jewellery", "10209"),
+    ("Antiquities", "91"),
+    ("Assault Plans", "169"),
+    ("Black Box", "122"),
+    ("Bone Fragments", "10456"),
+    ("Caustic Tissue Sample", "10439"),
+    ("Commercial Samples", "170"),
+    ("Coral Sap", "10451"),
+    ("Cyst Specimen", "10459"),
+    ("Damaged Escape Pod", "10215"),
+    ("Data Core", "10166"),
+    ("Diplomatic Bag", "171"),
+    ("Earth Relics", "10210"),
+    ("Encrypted Correspondence", "172"),
+    ("Encrypted Data Storage", "173"),
+    ("Experimental Chemicals", "123"),
+    ("Fossil Remnants", "10221"),
+    ("Gene Bank", "10211"),
+    ("Geological Samples", "174"),
+    ("Guardian Casket", "10153"),
+    ("Guardian Orb", "10154"),
+    ("Guardian Relic", "10155"),
+    ("Guardian Tablet", "10156"),
+    ("Guardian Totem", "10157"),
+    ("Guardian Urn", "10158"),
+    ("Hostages", "175"),
+    ("Impure Spire Mineral", "10452"),
+    ("Large Survey Data Cache", "125"),
+    ("Military Intelligence", "126"),
+    ("Military Plans", "127"),
+    ("Mollusc Brain Tissue", "10256"),
+    ("Mollusc Fluid", "10255"),
+    ("Mollusc Membrane", "10252"),
+    ("Mollusc Mycelium", "10253"),
+    ("Mollusc Soft Tissue", "10254"),
+    ("Mollusc Spores", "10251"),
+    ("Mysterious Idol", "10219"),
+    ("Occupied Escape Pod", "129"),
+    ("Organ Sample", "10458"),
+    ("Personal Effects", "10159"),
+    ("Pod Core Tissue", "10259"),
+    ("Pod Dead Tissue", "10257"),
+    ("Pod Mesoglea", "10262"),
+    ("Pod Outer Tissue", "10260"),
+    ("Pod Shell Tissue", "10261"),
+    ("Pod Surface Tissue", "10258"),
+    ("Pod Tissue", "10263"),
+    ("Political Prisoners", "177"),
+    ("Precious Gems", "10165"),
+    ("Prohibited Research Materials", "10220"),
+    ("Protective Membrane Scrap", "10449"),
+    ("Prototype Tech", "130"),
+    ("Rare Artwork", "131"),
+    ("Rebel Transmissions", "132"),
+    ("SAP 8 Core Container", "90"),
+    ("Scientific Research", "178"),
+    ("Scientific Samples", "179"),
+    ("Semi-Refined Spire Mineral", "10453"),
+    ("Small Survey Data Cache", "10208"),
+    ("Space Pioneer Relics", "10164"),
+    ("Tactical Data", "180"),
+    ("Technical Blueprints", "133"),
+    ("Thargoid Basilisk Tissue Sample", "10236"),
+    ("Thargoid Bio-storage Capsule", "10450"),
+    ("Thargoid Biological Matter", "10160"),
+    ("Thargoid Cyclops Tissue Sample", "10234"),
+    ("Thargoid Glaive Tissue Sample", "10441"),
+    ("Thargoid Heart", "10235"),
+    ("Thargoid Hydra Tissue Sample", "10239"),
+    ("Thargoid Link", "10161"),
+    ("Thargoid Medusa Tissue Sample", "10237"),
+    ("Thargoid Orthrus Tissue Sample", "10438"),
+    ("Thargoid Probe", "186"),
+    ("Thargoid Resin", "10162"),
+    ("Thargoid Scout Tissue Sample", "10238"),
+    ("Thargoid Scythe Tissue Sample", "10448"),
+    ("Thargoid Sensor", "10226"),
+    ("Thargoid Technology Samples", "10163"),
+    ("Time Capsule", "10212"),
+    ("Titan Deep Tissue Sample", "10442"),
+    ("Titan Drive Component", "10457"),
+    ("Titan Maw Deep Tissue Sample", "10445"),
+    ("Titan Maw Partial Tissue Sample", "10446"),
+    ("Titan Maw Tissue Sample", "10447"),
+    ("Titan Partial Tissue Sample", "10444"),
+    ("Titan Tissue Sample", "10443"),
+    ("Trade Data", "134"),
+    ("Trinkets of Hidden Fortune", "135"),
+    ("Unclassified Relic", "10437"),
+    ("Unoccupied Escape Pod", "10440"),
+    ("Unstable Data Core", "176"),
+    ("Wreckage Components", "10207"),
+    ("Imperial Slaves", "49"),
+    ("Slaves", "53"),
+    ("Advanced Catalysers", "61"),
+    ("Animal Monitors", "62"),
+    ("Aquaponic Systems", "63"),
+    ("Auto-Fabricators", "65"),
+    ("Bioreducing Lichen", "66"),
+    ("Computer Components", "67"),
+    ("H.E. Suits", "68"),
+    ("Hardware Diagnostic Sensor", "155"),
+    ("Land Enrichment Systems", "71"),
+    ("Medical Diagnostic Equipment", "154"),
+    ("Micro Controllers", "156"),
+    ("Muon Imager", "119"),
+    ("Nanobreakers", "167"),
+    ("Resonating Separators", "69"),
+    ("Robotics", "70"),
+    ("Structural Regulators", "117"),
+    ("Telemetry Suite", "184"),
+    ("Conductive Fabrics", "165"),
+    ("Leather", "73"),
+    ("Military Grade Fabrics", "157"),
+    ("Natural Fabrics", "74"),
+    ("Synthetic Fabrics", "75"),
+    ("Biowaste", "76"),
+    ("Chemical Waste", "32"),
+    ("Scrap", "77"),
+    ("Toxic Waste", "54"),
+    ("Battle Weapons", "88"),
+    ("Landmines", "118"),
+    ("Non-Lethal Weapons", "78"),
+    ("Personal Weapons", "79"),
+    ("Reactive Armour", "80"),
+])
+
 
 PREFNAME_MAX_ROUTE_DISTANCE = "Макс. расстояние маршрута" #pi1
 PREFNAME_ADD_ROUTE_DISTANCE = "Шаг изменения маршрута"
@@ -630,15 +888,14 @@ def plugin_app(parent: tk.Frame):
     this.labels.findImportBtn.grid(row=1, column=0, pady=2, columnspan=1, sticky="nsew")
     this.labels.findExportBtn = tk.Button(frame, text="Экспорт", state=tk.DISABLED, command=this.getBestExport)
     this.labels.findExportBtn.grid(row=1, column=1, pady=2, columnspan=1, sticky="nsew")
-    this.labels.lockRouteBtn = tk.Checkbutton(frame, text="", variable=LOCK_ROUTE, justify=tk.RIGHT, state=tk.DISABLED, onvalue=True, offvalue=False, command=this.setLockRoute)
-    this.labels.lockRouteBtn.grid(row=1, column=2, columnspan=1, sticky=tk.E)
-    create_tooltip(this.labels.lockRouteBtn, "Зафиксировать поиск маршрута между текущей и выбранной станциями")
+    this.labels.distanceLabel = tk.Label(frame, text="Охват", justify=tk.LEFT)
+    this.labels.distanceLabel.grid(row=1, column=2, sticky=tk.E)
 
     this.labels.decDistBtn = tk.Button(frame, text="⬅️", state=tk.DISABLED, command=this.decDist)
     this.labels.decDistBtn.grid(row=1, column=3, pady=2, sticky="nsew")
     this.labels.distLabel = tk.Label(frame, text=f"{distance} св.л", justify=tk.LEFT)
     this.labels.distLabel.grid(row=1, column=4, columnspan=1, sticky="nsew")
-    create_tooltip(this.labels.distLabel, "Дистанция поиска маршрутов")
+    create_tooltip(this.labels.distLabel, "Максимальная дистанция поиска")
     this.labels.addDistBtn = tk.Button(frame, text="➡️", state=tk.DISABLED, command=this.addDist)
     this.labels.addDistBtn.grid(row=1, column=5, pady=2, sticky="nsew")
 
@@ -646,30 +903,31 @@ def plugin_app(parent: tk.Frame):
     this.labels.status.grid(row=2, column=0, columnspan=5, sticky=tk.W)
     this.labels.stationCopyBtn = tk.Button(frame, text="🗎", state=tk.DISABLED, command=this.copyStationName)
     this.labels.stationCopyBtn.grid(row=2, column=5, columnspan=1, pady=2, sticky="nsew")
-    create_tooltip(this.labels.stationCopyBtn, "Скопировать название станции")
+    create_tooltip(this.labels.stationCopyBtn, "Скопировать название системы")
 
-    this.labels.distanceLabel = tk.Label(frame, text="Дистанция:", justify=tk.LEFT)
-    this.labels.distanceLabel.grid(row=4, column=0, sticky=tk.E)
+    this.labels.lockRouteBtn = tk.Checkbutton(frame, text="🔒Маршрут", variable=LOCK_ROUTE, justify=tk.LEFT, state=tk.DISABLED, onvalue=True, offvalue=False, command=this.setLockRoute, fg="#FA8100")
+    this.labels.lockRouteBtn.grid(row=4, column=0, columnspan=1, sticky=tk.E)
+    create_tooltip(this.labels.lockRouteBtn, "Зафиксировать маршрут")
     this.labels.distance = tk.Label(frame, text="", justify=tk.LEFT)
     this.labels.distance.grid(row=4, column=1, columnspan=2, sticky=tk.W)
     this.labels.prevStationBtn = tk.Button(frame, text="⬅️", state=tk.DISABLED, command=this.getPrevStation)
     this.labels.prevStationBtn.grid(row=4, column=3, pady=2, sticky="nsew")
     this.labels.stationsCountLabel = tk.Label(frame, text="0/0", justify=tk.LEFT)
     this.labels.stationsCountLabel.grid(row=4, column=4, sticky="nsew")
-    create_tooltip(this.labels.stationsCountLabel, "Количество найденных станций")
+    create_tooltip(this.labels.stationsCountLabel, "Найдено маршрутов")
     this.labels.nextStationBtn = tk.Button(frame, text="➡️", state=tk.DISABLED, command=this.getNextStation)
     this.labels.nextStationBtn.grid(row=4, column=5, pady=2, sticky="nsew")
 
 
-    this.labels.placeLabel = tk.Label(frame, text="К станции:", justify=tk.LEFT)
+    this.labels.placeLabel = tk.Label(frame, text="", justify=tk.LEFT)
     this.labels.placeLabel.grid(row=5, column=0, sticky=tk.E)
     this.labels.place = hll(frame, text="", justify=tk.LEFT)
     # https://inara.cz/elite/station/?search=[sysyem]+[station]
     this.labels.place["url"]= ""
-    this.labels.place.grid(row=5, column=1, columnspan=5, sticky="nsew")
+    this.labels.place.grid(row=5, column=0, columnspan=5, sticky="nsew")
     this.labels.placeCopyBtn = tk.Button(frame, text="🗎", state=tk.DISABLED, command=this.copyPlace)
     this.labels.placeCopyBtn.grid(row=5, column=5, columnspan=1, pady=2, sticky="nsew")
-    create_tooltip(this.labels.placeCopyBtn, "Скопировать название станции")
+    create_tooltip(this.labels.placeCopyBtn, "Скопировать название системы")
 
 
     #this.labels.resourceLabel = tk.Label(frame, text="Товар:", justify=tk.LEFT)
@@ -794,12 +1052,12 @@ def cmdr_data(data, is_beta):
         this.LAST_SYSTEM = this.STAR_SYSTEM
 
 def copyStationName():
-    pyperclip.copy(f"{this.STATION}")
+    pyperclip.copy(f"{this.STAR_SYSTEM}")
 
 def copyPlace():
     station = this.STATIONS[this.STATION_INDEX]
     if len(this.ROUTES) > 0 and this.ROUTES[station][this.ROUTE_INDEX]:
-        pyperclip.copy(f"{this.ROUTES[station][this.ROUTE_INDEX].station_name}")
+        pyperclip.copy(f"{this.ROUTES[station][this.ROUTE_INDEX].system_name}")
 
 def getBestImport():
     clearRoute()
@@ -807,7 +1065,7 @@ def getBestImport():
         setStateBtn(tk.DISABLED)
         this.IS_REQUESTING = True
         this.SEARCH_IMPORT = True
-        this.labels.placeLabel["text"] = 'От станции:'
+        #this.labels.placeLabel["text"] = 'Со станции:'
         setStatus("Идет поиск маршрута...")
         this.SEARCH_THREAD = Thread(target=doRequest)
         this.SEARCH_THREAD.start()
@@ -820,7 +1078,7 @@ def getBestExport():
         setStateBtn(tk.DISABLED)
         this.IS_REQUESTING = True
         this.SEARCH_IMPORT = False
-        this.labels.placeLabel["text"] = 'К станции:'
+        #this.labels.placeLabel["text"] = 'На станцию:'
         setStatus("Идет поиск маршрута...")
         this.SEARCH_THREAD = Thread(target=doRequest)
         this.SEARCH_THREAD.start()
@@ -907,10 +1165,10 @@ def doRequest():
         distance = str(config.get(this.PREFNAME_MAX_ROUTE_DISTANCE))
         if this.TIMED_ROUTE_DISTANCE > 0:
             distance = str(this.TIMED_ROUTE_DISTANCE)
-        url = this.SEARCH_URL+"?ps1="+str(pl1)+"&pi1="+str(distance)+"&pi3="+str(config.get(this.PREFNAME_MAX_PRICE_AGE))+"&pi4="+str(config.get(this.PREFNAME_LANDING_PAD))+"&pi6="+str(config.get(this.PREFNAME_MAX_STATION_DISTANCE))+"&pi5="+str(config.get(this.PREFNAME_INCLUDE_SURFACES))+"&pi7="+str(cariers)+"&ps3=&pi2="+str(config.get(this.PREFNAME_MIN_SUPPLY))+"&pi13="+str(config.get(this.PREFNAME_MIN_DEMAND))+"&pi10="+str(config.get(this.PREFNAME_MIN_CAPACITY))+"&pi8=0"
+        url = this.SEARCH_URL+"?ps1="+str(pl1)+"&pi1="+str(distance)+"&pi3="+str(config.get(this.PREFNAME_MAX_PRICE_AGE))+"&pi4="+str(config.get(this.PREFNAME_LANDING_PAD))+"&pi6="+str(config.get(this.PREFNAME_MAX_STATION_DISTANCE))+"&pi5="+str(surface)+"&pi7="+str(cariers)+"&ps3=&pi2="+str(config.get(this.PREFNAME_MIN_SUPPLY))+"&pi13="+str(config.get(this.PREFNAME_MIN_DEMAND))+"&pi10="+str(config.get(this.PREFNAME_MIN_CAPACITY))+"&pi8=0"
         if this.LOCK_ROUTE and this.SEARCH_STATION != "" and this.SEARCH_SYSTEM != "":
             pl1 = quote(this.LAST_STATION+" ["+this.LAST_SYSTEM+"]")
-            url = this.SEARCH_URL+"?ps1="+str(pl1)+"&ps2="+str(quote(this.SEARCH_STATION + ' [' + this.SEARCH_SYSTEM + ']'))+"&pi1="+str(distance)+"&pi3="+str(config.get(this.PREFNAME_MAX_PRICE_AGE))+"&pi4="+str(config.get(this.PREFNAME_LANDING_PAD))+"&pi6="+str(config.get(this.PREFNAME_MAX_STATION_DISTANCE))+"&pi5="+str(config.get(this.PREFNAME_INCLUDE_SURFACES))+"&pi7="+str(cariers)+"&ps3=&pi2="+str(config.get(this.PREFNAME_MIN_SUPPLY))+"&pi13="+str(config.get(this.PREFNAME_MIN_DEMAND))+"&pi10="+str(config.get(this.PREFNAME_MIN_CAPACITY))+"&pi8=0"
+            url = this.SEARCH_URL+"?ps1="+str(pl1)+"&ps2="+str(quote(this.SEARCH_STATION + ' [' + this.SEARCH_SYSTEM + ']'))+"&pi1="+str(distance)+"&pi3="+str(config.get(this.PREFNAME_MAX_PRICE_AGE))+"&pi4="+str(config.get(this.PREFNAME_LANDING_PAD))+"&pi6="+str(config.get(this.PREFNAME_MAX_STATION_DISTANCE))+"&pi5="+str(surface)+"&pi7="+str(cariers)+"&ps3=&pi2="+str(config.get(this.PREFNAME_MIN_SUPPLY))+"&pi13="+str(config.get(this.PREFNAME_MIN_DEMAND))+"&pi10="+str(config.get(this.PREFNAME_MIN_CAPACITY))+"&pi8=0"
         this.LOG.write(f"[INFO] [{PLUGIN_NAME} v{PLUGIN_VERSION}] Search routes from: {url}")
         response = requests.get(url=url, headers=this.HTTPS_HEADERS, timeout=10)
 
@@ -926,14 +1184,14 @@ def doRequest():
                     renderRoute(this.ROUTES[this.STATIONS[this.STATION_INDEX]][0])
                     if not SEARCH_IMPORT: 
                         if not this.LOCK_ROUTE:
-                            setStatus(f"От {this.STATION} [{this.STAR_SYSTEM}]")
+                            setStatus(f"Из {this.STATION} [{this.STAR_SYSTEM}]")
                         else:
-                            setStatus(f"От {this.LAST_STATION} [{this.LAST_SYSTEM}]")
+                            setStatus(f"Из {this.LAST_STATION} [{this.LAST_SYSTEM}]")
                     else:
                         if not this.LOCK_ROUTE:
-                            setStatus(f"К {this.STATION} [{this.STAR_SYSTEM}]")
+                            setStatus(f"На {this.STATION} [{this.STAR_SYSTEM}]")
                         else:
-                            setStatus(f"К {this.LAST_STATION} [{this.LAST_SYSTEM}]")
+                            setStatus(f"На {this.LAST_STATION} [{this.LAST_SYSTEM}]")
                     if not this.LOCK_ROUTE:
                         station = this.STATIONS[this.STATION_INDEX]
                         this.SEARCH_STATION = this.ROUTES[station][this.ROUTE_INDEX].station_name
@@ -1137,7 +1395,7 @@ def renderRoute(route):
             case 2:
                 surface = 0
 
-        url = this.SEARCH_URL+"?ps1="+str(pl1)+"&ps2="+str(quote(route.station_name + ' [' + route.system_name + ']'))+"&pi1="+str(config.get(this.PREFNAME_MAX_ROUTE_DISTANCE))+"&pi3="+str(config.get(this.PREFNAME_MAX_PRICE_AGE))+"&pi4="+str(config.get(this.PREFNAME_LANDING_PAD))+"&pi6="+str(config.get(this.PREFNAME_MAX_STATION_DISTANCE))+"&pi5="+str(config.get(this.PREFNAME_INCLUDE_SURFACES))+"&pi7="+str(cariers)+"&ps3=&pi2="+str(config.get(this.PREFNAME_MIN_SUPPLY))+"&pi13="+str(config.get(this.PREFNAME_MIN_DEMAND))+"&pi10="+str(config.get(this.PREFNAME_MIN_CAPACITY))+"&pi8=0"
+        url = this.SEARCH_URL+"?ps1="+str(pl1)+"&ps2="+str(quote(route.station_name + ' [' + route.system_name + ']'))+"&pi1="+str(config.get(this.PREFNAME_MAX_ROUTE_DISTANCE))+"&pi3="+str(config.get(this.PREFNAME_MAX_PRICE_AGE))+"&pi4="+str(config.get(this.PREFNAME_LANDING_PAD))+"&pi6="+str(config.get(this.PREFNAME_MAX_STATION_DISTANCE))+"&pi5="+str(surface)+"&pi7="+str(cariers)+"&ps3=&pi2="+str(config.get(this.PREFNAME_MIN_SUPPLY))+"&pi13="+str(config.get(this.PREFNAME_MIN_DEMAND))+"&pi10="+str(config.get(this.PREFNAME_MIN_CAPACITY))+"&pi8=0"
 
         demandText = "📶"
         this.labels.demand["fg"] = "#ffcc00"
@@ -1160,8 +1418,9 @@ def renderRoute(route):
 
         this.labels.resource["text"] = ITEMS.get(route.resource, route.resource)
         this.labels.demand["text"] = demandText
-        if route.resource in ITEMS:
-            this.labels.resource["url"] = f"https://elite-dangerous.fandom.com/ru/wiki/{quote(ITEMS.get(route.resource, route.resource))}"
+        if route.resource in ITEMS_ID:
+            item_url = f"https://inara.cz/elite/commodities/?formbrief=1&pi1=1&pa1[]={quote(ITEMS_ID.get(route.resource, route.resource))}&ps1={quote(route.system_name)}&pi10=3&pi11={config.get(this.PREFNAME_MAX_ROUTE_DISTANCE)}&pi3={config.get(this.PREFNAME_LANDING_PAD)}&pi9={config.get(this.PREFNAME_MAX_STATION_DISTANCE)}&pi4={config.get(this.PREFNAME_INCLUDE_SURFACES)}&pi8={cariers}&pi13=2&pi5={config.get(this.PREFNAME_MAX_PRICE_AGE)}&pi12=0&pi7={config.get(this.PREFNAME_MIN_SUPPLY)}&pi14=0&ps3="
+            this.labels.resource["url"] = item_url
         else:
             this.labels.resource["url"] = f"https://elite-dangerous.fandom.com/wiki/{quote(route.resource)}"
 
