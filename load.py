@@ -1,5 +1,5 @@
 """
-Plugin for "HITS"
+Plugin for "EDMC"
 """
 import traceback
 from typing import Optional, Tuple
@@ -35,8 +35,8 @@ except ImportError:  ## test mode
 
 this = sys.modules[__name__]
 
-PLUGIN_NAME = "ETTC RU"
-PLUGIN_VERSION = "1.4.3"
+PLUGIN_NAME = "EDTTC"
+PLUGIN_VERSION = "1.5.2"
 
 LOG = LogContext()
 LOG.set_filename(os.path.join(os.path.abspath(os.path.dirname(__file__)), "plugin.log"))
@@ -627,7 +627,8 @@ LAST_STATION = ""
 LAST_SYSTEM = ""
 LOCK_ROUTE = False
 SEARCH_URL = "https://inara.cz/elite/market-traderoutes-search/"
-UPDATE_URL = "https://github.com/FordeD/ETTC/releases"
+UPDATE_URL = "https://github.com/YAD4ever/EDTTC/releases"
+API_REQUEST_URL = "https://api.github.com/repos/YAD4ever/EDTTC/releases/latest"
 
 class TradeRoute:
     def __init__(self, station_name, system_name, distance, resource, count, price, revenue, update, sell_percent, sell_per_item, demand, station_distance):
@@ -690,7 +691,7 @@ class ETTC():
 
 def checkVersion():
 	try:
-		req = requests.get(url='https://api.github.com/repos/FordeD/ETTC/releases/latest')
+		req = requests.get(url=API_REQUEST_URL)
 	except:
 		return -1
 	if not req.status_code == requests.codes.ok:
@@ -1240,9 +1241,9 @@ def parseData(html):
     recource_path = ".traderouteboxtoright > div:nth-of-type(1) > .itempairvalue > a > span.avoidwrap"
     count_path = ".traderouteboxtoright > div:nth-of-type(3) > .itempairvalue"
     price_path = ".traderouteboxtoright > div:nth-of-type(2) > .itempairvalue"
-    revenue_path = "div:nth-of-type(10) > .traderouteboxprofit > div:nth-of-type(3) > .itempairvalue.itempairvalueright"
+    revenue_path = "div:nth-of-type(10) > .traderouteboxprofit > div:nth-of-type(2) > .itempairvalue.itempairvalueright"
     update_path = "div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(2) > .itempairvalue.itempairvalueright"
-    sell_percent_path = "div:nth-of-type(10) > .traderouteboxprofit > div:nth-of-type(2) > .itempairvalue.itempairvalueright"
+    sell_percent_path = "div:nth-of-type(10) > .traderouteboxprofit > div:nth-of-type(4) > .itempairvalue.itempairvalueright"
     sell_per_item_path = "div:nth-of-type(10) > .traderouteboxprofit > div:nth-of-type(1) > .itempairvalue.itempairvalueright"
     demand_path = ".traderouteboxfromleft > div:nth-of-type(3) > .itempairvalue"
 
