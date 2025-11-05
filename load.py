@@ -36,7 +36,7 @@ except ImportError:  ## test mode
 this = sys.modules[__name__]
 
 PLUGIN_NAME = "EDTTC"
-PLUGIN_VERSION = "1.5.3"
+PLUGIN_VERSION = "1.5.4"
 
 LOG = LogContext()
 LOG.set_filename(os.path.join(os.path.abspath(os.path.dirname(__file__)), "plugin.log"))
@@ -604,11 +604,11 @@ SEARCH_THREAD = None
 STAR_SYSTEM = None
 STATION = None
 SORTING = {
-    "REVENUE": True,
+    "PROFIT": True,
     "MARGIN": False,
     "DEMAND": False
 }
-SELECTED_SORTING = tk.StringVar(value="REVENUE")
+SELECTED_SORTING = tk.StringVar(value="PROFIT")
 # Для тестов
 # STAR_SYSTEM = "Shinrarta Dezhra"
 # STATION = "Jameson Memorial"
@@ -628,10 +628,10 @@ LAST_SYSTEM = ""
 LOCK_ROUTE = False
 SEARCH_URL = "https://inara.cz/elite/market-traderoutes-search/"
 UPDATE_URL = "https://github.com/YAD4ever/EDTTC/releases"
-API_REQUEST_URL = "https://api.github.com/repos/YAD4ever/EDTTC/releases/latest"
+API_GITHUB_LATEST_URL = "https://api.github.com/repos/YAD4ever/EDTTC/releases/latest"
 
 class TradeRoute:
-    def __init__(self, station_name, system_name, distance, resource, supply, demand, price, revenue, update, profit_margin, profit_per_item, demand_level, station_distance):
+    def __init__(self, station_name, system_name, distance, resource, supply, demand, buy_price, sell_price, profit, update, profit_margin, profit_per_item, demand_level, station_distance):
         self.station_name = station_name
         self.system_name = system_name
         self.distance = distance
@@ -639,8 +639,9 @@ class TradeRoute:
         self.resource = resource
         self.supply = supply
         self.demand = demand
-        self.price = price
-        self.revenue = revenue
+        self.buy_price = buy_price
+        self.sell_price = sell_price
+        self.profit = profit
         self.update = update
         self.profit_margin = profit_margin
         self.profit_per_item = profit_per_item
@@ -674,11 +675,13 @@ class ETTC():
     demandLabel: None
     demand: None
     demand_level: None
-    priceLabel: None
-    price: None
+    buyPriceLabel: None
+    buyPrice: None
+    sellPriceLabel: None
+    sellPrice: None
     profitLabel: None
     profit: None
-    detailEarn: None
+    profitPerItem: None
     margin: None
     marginLabel: None
     updatedLabel: None
@@ -687,13 +690,13 @@ class ETTC():
     spacer: None
     updateBtn: None
     sortLabel: None
-    sortRevenue: None
+    sortProfit: None
     sortMargin: None
     sortDemand: None
 
 def checkVersion():
 	try:
-		req = requests.get(url=API_REQUEST_URL)
+		req = requests.get(url=API_GITHUB_LATEST_URL)
 	except:
 		return -1
 	if not req.status_code == requests.codes.ok:
@@ -880,8 +883,8 @@ def plugin_app(parent: tk.Frame):
 
     this.labels.sortLabel = tk.Label(frame, text=f"Сортировка:", justify=tk.LEFT)
     this.labels.sortLabel.grid(row=0, column=0, sticky=tk.E)
-    this.labels.sortRevenue = tk.Radiobutton(frame, text=f"Выручка", variable=this.SELECTED_SORTING, value="REVENUE", command=this.updateSorting, relief="flat", justify=tk.LEFT, fg="#FA8100")
-    this.labels.sortRevenue.grid(row=0, column=1, sticky=tk.E)
+    this.labels.sortProfit = tk.Radiobutton(frame, text=f"Прибыль", variable=this.SELECTED_SORTING, value="PROFIT", command=this.updateSorting, relief="flat", justify=tk.LEFT, fg="#FA8100")
+    this.labels.sortProfit.grid(row=0, column=1, sticky=tk.E)
     this.labels.sortMargin = tk.Radiobutton(frame, text=f"Маржа", variable=this.SELECTED_SORTING, value="MARGIN", command=this.updateSorting, relief="flat", justify=tk.LEFT, fg="#FA8100")
     this.labels.sortMargin.grid(row=0, column=2, sticky=tk.E)
     this.labels.sortDemand = tk.Radiobutton(frame, text=f"Спрос", variable=this.SELECTED_SORTING, value="DEMAND", command=this.updateSorting, relief="flat", justify=tk.LEFT, fg="#FA8100")
@@ -949,7 +952,7 @@ def plugin_app(parent: tk.Frame):
     this.labels.nextItemBtn = tk.Button(frame, text="➡️", state=tk.DISABLED, command=this.getNextItem)
     this.labels.nextItemBtn.grid(row=6, column=5, pady=2, sticky="nsew")
 
-    this.labels.supplyLabel = tk.Label(frame, text="Предложение:", justify=tk.LEFT)
+    this.labels.supplyLabel = tk.Label(frame, text="Поставка:", justify=tk.LEFT)
     this.labels.supplyLabel.grid(row=7, column=0, sticky=tk.E)
     this.labels.supply = tk.Label(frame, text="", justify=tk.LEFT)
     this.labels.supply.grid(row=7, column=1, columnspan=1, sticky=tk.W)
@@ -962,22 +965,26 @@ def plugin_app(parent: tk.Frame):
     this.labels.profitLabel.grid(row=10, column=0, sticky=tk.E)
     this.labels.profit = tk.Label(frame, text="", justify=tk.LEFT)
     this.labels.profit.grid(row=10, column=1, columnspan=1, sticky=tk.W)
-    this.labels.priceLabel = tk.Label(frame, text="Цена:", justify=tk.LEFT)
-    this.labels.priceLabel.grid(row=10, column=2, columnspan=2, sticky=tk.E)
-    this.labels.price = tk.Label(frame, text="", justify=tk.LEFT)
-    this.labels.price.grid(row=10, column=4, columnspan=2, sticky=tk.W)
+    this.labels.buyPriceLabel = tk.Label(frame, text="Стоимость:", justify=tk.LEFT)
+    this.labels.buyPriceLabel.grid(row=10, column=2, columnspan=2, sticky=tk.E)
+    this.labels.buyPrice = tk.Label(frame, text="", justify=tk.LEFT)
+    this.labels.buyPrice.grid(row=10, column=4, columnspan=2, sticky=tk.W)
 
-    this.labels.detailEarn = tk.Label(frame, text="", justify=tk.LEFT)
-    this.labels.detailEarn.grid(row=11, column=1, columnspan=4, sticky=tk.W)
-    this.labels.marginLabel = tk.Label(frame, text="Маржа:", justify=tk.LEFT)
-    this.labels.marginLabel.grid(row=11, column=2, columnspan=2, sticky=tk.E)
-    this.labels.margin = tk.Label(frame, text="", justify=tk.LEFT)
-    this.labels.margin.grid(row=11, column=4, columnspan=3, sticky=tk.W)
+    this.labels.profitPerItem = tk.Label(frame, text="", justify=tk.LEFT)
+    this.labels.profitPerItem.grid(row=11, column=1, columnspan=4, sticky=tk.W)
+    this.labels.sellPriceLabel = tk.Label(frame, text="Цена:", justify=tk.LEFT)
+    this.labels.sellPriceLabel.grid(row=11, column=2, columnspan=2, sticky=tk.E)
+    this.labels.sellPrice = tk.Label(frame, text="", justify=tk.LEFT)
+    this.labels.sellPrice.grid(row=11, column=4, columnspan=2, sticky=tk.W)
 
     this.labels.updatedLabel = tk.Label(frame, text="Обновлено:", justify=tk.LEFT)
     this.labels.updatedLabel.grid(row=12, column=0, sticky=tk.E)
     this.labels.updated = tk.Label(frame, text="", justify=tk.LEFT)
     this.labels.updated.grid(row=12, column=1, columnspan=2, sticky=tk.W)
+    this.labels.marginLabel = tk.Label(frame, text="Маржа:", justify=tk.LEFT)
+    this.labels.marginLabel.grid(row=12, column=2, columnspan=2, sticky=tk.E)
+    this.labels.margin = tk.Label(frame, text="", justify=tk.LEFT)
+    this.labels.margin.grid(row=12, column=4, columnspan=3, sticky=tk.W)
 
     if checkVersion() == 0:
         this.labels.updateBtn = tk.Button(frame, text="Доступно обновление плагина", state=tk.NORMAL, command=this.openUpdateLink)
@@ -1247,18 +1254,20 @@ def parseData(html):
     recource_path = ".traderouteboxtoright > div:nth-of-type(1) > .itempairvalue > a > span.avoidwrap"
     supply_path = ".traderouteboxtoright > div:nth-of-type(3) > .itempairvalue"
     demand_path = ".traderouteboxfromleft > div:nth-of-type(3) > .itempairvalue"
-    price_path = ".traderouteboxtoright > div:nth-of-type(2) > .itempairvalue"
-    revenue_path = "div:nth-of-type(10) > .traderouteboxprofit > div:nth-of-type(2) > .itempairvalue.itempairvalueright"
+    buy_price_path = ".traderouteboxtoright > div:nth-of-type(2) > .itempairvalue"
+    sell_price_path = ".traderouteboxfromleft > div:nth-of-type(2) > .itempairvalue"
+    profit_path = "div:nth-of-type(10) > .traderouteboxprofit > div:nth-of-type(2) > .itempairvalue.itempairvalueright"
     update_path = "div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(2) > .itempairvalue.itempairvalueright"
     profit_percent_path = "div:nth-of-type(10) > .traderouteboxprofit > div:nth-of-type(4) > .itempairvalue.itempairvalueright"
-    sell_per_item_path = "div:nth-of-type(10) > .traderouteboxprofit > div:nth-of-type(1) > .itempairvalue.itempairvalueright"
+    profit_per_item_path = "div:nth-of-type(10) > .traderouteboxprofit > div:nth-of-type(1) > .itempairvalue.itempairvalueright"
 
     if this.SEARCH_IMPORT:
         route_type = 2
         recource_path = ".traderouteboxfromright > div:nth-of-type(1) > .itempairvalue > a > span.avoidwrap"
         supply_path = ".traderouteboxtoleft > div:nth-of-type(3) > .itempairvalue"
-        price_path = ".traderouteboxtoleft > div:nth-of-type(2) > .itempairvalue"
         demand_path = ".traderouteboxfromright > div:nth-of-type(3) > .itempairvalue"
+        buy_price_path = ".traderouteboxtoleft > div:nth-of-type(2) > .itempairvalue"
+        sell_price_path = ".traderouteboxfromright > div:nth-of-type(2) > .itempairvalue"
         
     
     for block in soup.find_all("div", class_="mainblock traderoutebox taggeditem", attrs={"data-tags": f'["{route_type}"]'}):
@@ -1312,12 +1321,17 @@ def parseData(html):
                 case _:
                     demand_level = 2
 
-            # Цена
-            price = block.select_one(price_path).text.strip()
-            price = re.sub(r",", "", price)
-            price = re.sub(r'\D', '', price)
+            # Цена покупки
+            buy_price = block.select_one(buy_price_path).text.strip()
+            buy_price = re.sub(r",", "", buy_price)
+            buy_price = re.sub(r'\D', '', buy_price)
 
-            profit_per_item = block.select_one(sell_per_item_path).text.strip() 
+            # Цена продажи
+            sell_price = block.select_one(sell_price_path).text.split(" | ")[0].strip()
+            sell_price = re.sub(r",", "", sell_price)
+            sell_price = re.sub(r'\D', '', sell_price)
+
+            profit_per_item = block.select_one(profit_per_item_path).text.strip() 
             profit_per_item = re.sub(r",", "", profit_per_item)  # Убираем запятые
             profit_per_item = re.sub(r'\D', '', profit_per_item) # Убираем спец. символ ︎
 
@@ -1327,29 +1341,29 @@ def parseData(html):
             profit_margin = int(profit_margin)
             
             # Доход
-            revenue = block.select_one(revenue_path).text.strip()
-            revenue = re.sub(r",", "", revenue)
-            revenue = re.sub(r'\D', '', revenue)
+            profit = block.select_one(profit_path).text.strip()
+            profit = re.sub(r",", "", profit)
+            profit = re.sub(r'\D', '', profit)
             
             # Дата обновления
             update = block.select_one(update_path).text.strip()
-            update = re.sub(r"minutes", "минут", update)
-            update = re.sub(r"minute", "минуты", update)
-            update = re.sub(r"hours", "часов", update)
-            update = re.sub(r"hour", "час", update)
-            update = re.sub(r"days", "дней", update)
-            update = re.sub(r"day", "день", update)
-            update = re.sub(r"seconds", "секунд", update)
-            update = re.sub(r"second", "секунду", update)
+            update = re.sub(r"minutes", "мин.", update)
+            update = re.sub(r"minute", "мин.", update)
+            update = re.sub(r"hours", "ч.", update)
+            update = re.sub(r"hour", "ч.", update)
+            update = re.sub(r"days", "дн.", update)
+            update = re.sub(r"day", "дн.", update)
+            update = re.sub(r"seconds", "сек.", update)
+            update = re.sub(r"second", "сек.", update)
             update = re.sub(r"ago", "назад", update)
             update = re.sub(r"now", "сейчас", update)
 
             if int(config.get(this.PREFNAME_DEBUG_MODE)):
-                this.LOG.write(f"[DEBUG] [{PLUGIN_NAME} v{PLUGIN_VERSION}] Result block: {station_name}, {system_name}, {distance}, {station_distance}, {resource}, {supply}, {demand}, {price}, {revenue}, {update}, {profit_margin}, {profit_per_item}, {demand_level}")
+                this.LOG.write(f"[DEBUG] [{PLUGIN_NAME} v{PLUGIN_VERSION}] Result block: {station_name}, {system_name}, {distance}, {station_distance}, {resource}, {supply}, {demand}, {buy_price}, {sell_price}, {profit}, {update}, {profit_margin}, {profit_per_item}, {demand_level}")
             
-            timed_route = TradeRoute(station_name, system_name, distance, resource, supply, demand, price, revenue, update, profit_margin, profit_per_item, demand_level, station_distance)
+            timed_route = TradeRoute(station_name, system_name, distance, resource, supply, demand, buy_price, sell_price, profit, update, profit_margin, profit_per_item, demand_level, station_distance)
             timed_routes[station_name].append(timed_route)
-            # timed_routes.append(TradeRoute(station_name, system_name, distance, resource, supply, demand, price, revenue, update, profit_margin, profit_per_item, demand_level, station_distance))
+            # timed_routes.append(TradeRoute(station_name, system_name, distance, resource, supply, demand, buy_price, sell_price, profit, update, profit_margin, profit_per_item, demand_level, station_distance))
         except Exception as e:
             this.LOG.write(f"[ERROR] [{PLUGIN_NAME} v{PLUGIN_VERSION}] {e}")
             this.LOG.write(f"[ERROR] [{PLUGIN_NAME} v{PLUGIN_VERSION}] {traceback.format_exc()}")
@@ -1392,7 +1406,7 @@ def parseData(html):
 
 def renderRoute(route):
     if int(config.get(this.PREFNAME_DEBUG_MODE)):
-        this.LOG.write(f"[DEBUG] [{PLUGIN_NAME} v{PLUGIN_VERSION}] Render route: {route.station_name}, {route.system_name}, {route.distance}, {route.station_distance}, {route.resource}, {route.supply}, {route.demand}, {route.price}, {route.revenue}, {route.update}, {route.profit_margin}, {route.profit_per_item}, {route.demand_level}")
+        this.LOG.write(f"[DEBUG] [{PLUGIN_NAME} v{PLUGIN_VERSION}] Render route: {route.station_name}, {route.system_name}, {route.distance}, {route.station_distance}, {route.resource}, {route.supply}, {route.demand}, {route.buy_price}, {route.sell_price}, {route.profit}, {route.update}, {route.profit_margin}, {route.profit_per_item}, {route.demand_level}")
     try:
         pl1 = quote(this.STATION+" ["+this.STAR_SYSTEM+"]")
         # Переворачивание значений для фильтра по кораблям-носителям
@@ -1438,10 +1452,11 @@ def renderRoute(route):
 
         this.labels.supply["text"] = f"{int(route.supply):,} т"
         this.labels.demand["text"] = f"{int(route.demand):,} т"
-        this.labels.price["text"] = f"{int(route.price):,} Кр"
+        this.labels.buyPrice["text"] = f"{int(route.buy_price):,} Кр"
+        this.labels.sellPrice["text"] = f"{int(route.sell_price):,} Кр"
 
-        this.labels.profit["text"] = f"{int(route.revenue):,} Кр"
-        this.labels.detailEarn["text"] = f"{int(route.profit_per_item):,} Кр/т"
+        this.labels.profit["text"] = f"{int(route.profit):,} Кр"
+        this.labels.profitPerItem["text"] = f"{int(route.profit_per_item):,} Кр/т"
         this.labels.margin["text"] = f"{int(route.profit_margin):,}%"
 
         this.labels.updated["text"] = route.update
@@ -1466,9 +1481,10 @@ def clearRoute():
         this.labels.resource["url"] = ""
         this.labels.supply["text"] = ""
         this.labels.demand["text"] = ""
-        this.labels.price["text"] = ""
+        this.labels.buyPrice["text"] = ""
+        this.labels.sellPrice["text"] = ""
         this.labels.profit["text"] = ""
-        this.labels.detailEarn["text"] = ""
+        this.labels.profitPerItem["text"] = ""
         this.labels.margin["text"] = ""
         this.labels.updated["text"] = ""
     except Exception as e:
