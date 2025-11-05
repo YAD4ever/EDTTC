@@ -36,7 +36,7 @@ except ImportError:  ## test mode
 this = sys.modules[__name__]
 
 PLUGIN_NAME = "EDTTC"
-PLUGIN_VERSION = "1.5.2"
+PLUGIN_VERSION = "1.5.3"
 
 LOG = LogContext()
 LOG.set_filename(os.path.join(os.path.abspath(os.path.dirname(__file__)), "plugin.log"))
@@ -631,19 +631,20 @@ UPDATE_URL = "https://github.com/YAD4ever/EDTTC/releases"
 API_REQUEST_URL = "https://api.github.com/repos/YAD4ever/EDTTC/releases/latest"
 
 class TradeRoute:
-    def __init__(self, station_name, system_name, distance, resource, count, price, revenue, update, sell_percent, sell_per_item, demand, station_distance):
+    def __init__(self, station_name, system_name, distance, resource, supply, demand, price, revenue, update, profit_margin, profit_per_item, demand_level, station_distance):
         self.station_name = station_name
         self.system_name = system_name
         self.distance = distance
         self.station_distance = station_distance
         self.resource = resource
-        self.count = count
+        self.supply = supply
+        self.demand = demand
         self.price = price
         self.revenue = revenue
         self.update = update
-        self.sell_percent = sell_percent
-        self.sell_per_item = sell_per_item
-        self.demand = demand
+        self.profit_margin = profit_margin
+        self.profit_per_item = profit_per_item
+        self.demand_level = demand_level
 
 class ETTC():
     searchImportLabel: None
@@ -670,12 +671,13 @@ class ETTC():
     resource: None
     supplyLabel: None
     supply: None
-    priceLabel: None
-    price: None
     demandLabel: None
     demand: None
-    earnLabel: None
-    earn: None
+    demand_level: None
+    priceLabel: None
+    price: None
+    profitLabel: None
+    profit: None
     detailEarn: None
     margin: None
     marginLabel: None
@@ -936,37 +938,41 @@ def plugin_app(parent: tk.Frame):
     this.labels.resource = hll(frame, text="", justify=tk.CENTER)
     this.labels.resource["url"]= ""
     this.labels.resource.grid(row=6, column=0, columnspan=2, sticky=tk.E)
-    this.labels.demand = tk.Label(frame, text="📶", justify=tk.LEFT, fg="#636362")
-    this.labels.demand.grid(row=6, column=2, columnspan=1, sticky=tk.W)
-    create_tooltip(this.labels.demand, "Спрос на товар")
+    this.labels.demand_level = tk.Label(frame, text="📶", justify=tk.LEFT, fg="#636362")
+    this.labels.demand_level.grid(row=6, column=2, columnspan=1, sticky=tk.W)
+    create_tooltip(this.labels.demand_level, "Уровень спроса")
     this.labels.prevItemBtn = tk.Button(frame, text="⬅️", state=tk.DISABLED, command=this.getPrevItem)
     this.labels.prevItemBtn.grid(row=6, column=3, pady=2, sticky="nsew")
     this.labels.itemsCountLabel = tk.Label(frame, text="0/0", justify=tk.LEFT)
     this.labels.itemsCountLabel.grid(row=6, column=4, sticky="nsew")
-    create_tooltip(this.labels.itemsCountLabel, "Количество найденных товаров")
+    create_tooltip(this.labels.itemsCountLabel, "Найдено товаров")
     this.labels.nextItemBtn = tk.Button(frame, text="➡️", state=tk.DISABLED, command=this.getNextItem)
     this.labels.nextItemBtn.grid(row=6, column=5, pady=2, sticky="nsew")
 
-    this.labels.supplyLabel = tk.Label(frame, text="Количество:", justify=tk.LEFT)
+    this.labels.supplyLabel = tk.Label(frame, text="Предложение:", justify=tk.LEFT)
     this.labels.supplyLabel.grid(row=7, column=0, sticky=tk.E)
     this.labels.supply = tk.Label(frame, text="", justify=tk.LEFT)
     this.labels.supply.grid(row=7, column=1, columnspan=1, sticky=tk.W)
-    this.labels.priceLabel = tk.Label(frame, text="Цена:", justify=tk.RIGHT)
-    this.labels.priceLabel.grid(row=7, column=2, columnspan=2, sticky=tk.W)
+    this.labels.demandLabel = tk.Label(frame, text="Спрос:", justify=tk.LEFT)
+    this.labels.demandLabel.grid(row=7, column=2, columnspan=2, sticky=tk.E)
+    this.labels.demand = tk.Label(frame, text="", justify=tk.LEFT)
+    this.labels.demand.grid(row=7, column=4, columnspan=2, sticky=tk.W)
+
+    this.labels.profitLabel = tk.Label(frame, text="Прибыль:", justify=tk.LEFT)
+    this.labels.profitLabel.grid(row=10, column=0, sticky=tk.E)
+    this.labels.profit = tk.Label(frame, text="", justify=tk.LEFT)
+    this.labels.profit.grid(row=10, column=1, columnspan=1, sticky=tk.W)
+    this.labels.priceLabel = tk.Label(frame, text="Цена:", justify=tk.LEFT)
+    this.labels.priceLabel.grid(row=10, column=2, columnspan=2, sticky=tk.E)
     this.labels.price = tk.Label(frame, text="", justify=tk.LEFT)
-    this.labels.price.grid(row=7, column=4, columnspan=2, sticky=tk.W)
+    this.labels.price.grid(row=10, column=4, columnspan=2, sticky=tk.W)
 
-    this.labels.earnLabel = tk.Label(frame, text="Прибыль:", justify=tk.LEFT)
-    this.labels.earnLabel.grid(row=10, column=0, sticky=tk.E)
-    this.labels.earn = tk.Label(frame, text="", justify=tk.LEFT)
-    this.labels.earn.grid(row=10, column=1, columnspan=1, sticky=tk.W)
-
-    this.labels.marginLabel = tk.Label(frame, text="Маржа:", justify=tk.LEFT)
-    this.labels.marginLabel.grid(row=10, column=2, columnspan=2, sticky=tk.W)
-    this.labels.margin = tk.Label(frame, text="", justify=tk.LEFT)
-    this.labels.margin.grid(row=10, column=4, columnspan=3, sticky=tk.W)
     this.labels.detailEarn = tk.Label(frame, text="", justify=tk.LEFT)
     this.labels.detailEarn.grid(row=11, column=1, columnspan=4, sticky=tk.W)
+    this.labels.marginLabel = tk.Label(frame, text="Маржа:", justify=tk.LEFT)
+    this.labels.marginLabel.grid(row=11, column=2, columnspan=2, sticky=tk.E)
+    this.labels.margin = tk.Label(frame, text="", justify=tk.LEFT)
+    this.labels.margin.grid(row=11, column=4, columnspan=3, sticky=tk.W)
 
     this.labels.updatedLabel = tk.Label(frame, text="Обновлено:", justify=tk.LEFT)
     this.labels.updatedLabel.grid(row=12, column=0, sticky=tk.E)
@@ -1239,18 +1245,18 @@ def parseData(html):
     distance_path = "div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(1) > div.itempairvalue.itempairvalueright > span.bigger"
     station_distance_path = "div:nth-of-type(7) > .itempaircontainer > .itempairvalue > .minor"
     recource_path = ".traderouteboxtoright > div:nth-of-type(1) > .itempairvalue > a > span.avoidwrap"
-    count_path = ".traderouteboxtoright > div:nth-of-type(3) > .itempairvalue"
+    supply_path = ".traderouteboxtoright > div:nth-of-type(3) > .itempairvalue"
+    demand_path = ".traderouteboxfromleft > div:nth-of-type(3) > .itempairvalue"
     price_path = ".traderouteboxtoright > div:nth-of-type(2) > .itempairvalue"
     revenue_path = "div:nth-of-type(10) > .traderouteboxprofit > div:nth-of-type(2) > .itempairvalue.itempairvalueright"
     update_path = "div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(2) > .itempairvalue.itempairvalueright"
-    sell_percent_path = "div:nth-of-type(10) > .traderouteboxprofit > div:nth-of-type(4) > .itempairvalue.itempairvalueright"
+    profit_percent_path = "div:nth-of-type(10) > .traderouteboxprofit > div:nth-of-type(4) > .itempairvalue.itempairvalueright"
     sell_per_item_path = "div:nth-of-type(10) > .traderouteboxprofit > div:nth-of-type(1) > .itempairvalue.itempairvalueright"
-    demand_path = ".traderouteboxfromleft > div:nth-of-type(3) > .itempairvalue"
 
     if this.SEARCH_IMPORT:
         route_type = 2
         recource_path = ".traderouteboxfromright > div:nth-of-type(1) > .itempairvalue > a > span.avoidwrap"
-        count_path = ".traderouteboxtoleft > div:nth-of-type(3) > .itempairvalue"
+        supply_path = ".traderouteboxtoleft > div:nth-of-type(3) > .itempairvalue"
         price_path = ".traderouteboxtoleft > div:nth-of-type(2) > .itempairvalue"
         demand_path = ".traderouteboxfromright > div:nth-of-type(3) > .itempairvalue"
         
@@ -1280,40 +1286,45 @@ def parseData(html):
             # Ресурс
             resource = block.select_one(recource_path).text.strip()
             
-            # Количество
-            count = block.select_one(count_path).text.strip()
-            count = re.sub(r",", "", count)  # Убираем запятые
-            count = re.sub(r'\D', '', count) # Убираем спец. символ ︎
+            # Поставка
+            supply = block.select_one(supply_path).text.strip()
+            supply = re.sub(r",", "", supply)  # Убираем запятые
+            supply = re.sub(r'\D', '', supply) # Убираем спец. символ ︎
+
+            # Спрос
+            demand = block.select_one(demand_path).text.strip()
+            demand = re.sub(r",", "", demand)  # Убираем запятые
+            demand = re.sub(r'\D', '', demand) # Убираем спец. символ ︎
 
             # helpmarkleft - нет спроса
             # supplydemandicon0 - низкий
             # отсутсвует 
             # supplydemandicon3 - высокий
             demandText = str(block.select_one(demand_path))
-            demand = 2
+            demand_level = 2
             match demandText:
                 case t if "helpmarkleft" in t:
-                    demand = 0
+                    demand_level = 0
                 case t if "supplydemandicon0" in t:
-                    demand = 1
+                    demand_level = 1
                 case t if "supplydemandicon3" in t:
-                    demand = 3
+                    demand_level = 3
                 case _:
-                    demand = 2
+                    demand_level = 2
 
             # Цена
             price = block.select_one(price_path).text.strip()
             price = re.sub(r",", "", price)
             price = re.sub(r'\D', '', price)
 
-            sell_per_item = block.select_one(sell_per_item_path).text.strip() 
-            sell_per_item = re.sub(r",", "", sell_per_item)  # Убираем запятые
-            sell_per_item = re.sub(r'\D', '', sell_per_item) # Убираем спец. символ ︎
+            profit_per_item = block.select_one(sell_per_item_path).text.strip() 
+            profit_per_item = re.sub(r",", "", profit_per_item)  # Убираем запятые
+            profit_per_item = re.sub(r'\D', '', profit_per_item) # Убираем спец. символ ︎
 
-            sell_percent = block.select_one(sell_percent_path).text.strip()
-            sell_percent = re.sub(r",", "", sell_percent)  # Убираем запятые
-            sell_percent = re.sub(r'\D', '', sell_percent) # Убираем спец. символ ︎
-            sell_percent = int(sell_percent)
+            profit_margin = block.select_one(profit_percent_path).text.strip()
+            profit_margin = re.sub(r",", "", profit_margin)  # Убираем запятые
+            profit_margin = re.sub(r'\D', '', profit_margin) # Убираем спец. символ ︎
+            profit_margin = int(profit_margin)
             
             # Доход
             revenue = block.select_one(revenue_path).text.strip()
@@ -1334,11 +1345,11 @@ def parseData(html):
             update = re.sub(r"now", "сейчас", update)
 
             if int(config.get(this.PREFNAME_DEBUG_MODE)):
-                this.LOG.write(f"[DEBUG] [{PLUGIN_NAME} v{PLUGIN_VERSION}] Result block: {station_name}, {system_name}, {distance}, {station_distance}, {resource}, {count}, {price}, {revenue}, {update}, {sell_percent}, {sell_per_item}, {demand}")
+                this.LOG.write(f"[DEBUG] [{PLUGIN_NAME} v{PLUGIN_VERSION}] Result block: {station_name}, {system_name}, {distance}, {station_distance}, {resource}, {supply}, {demand}, {price}, {revenue}, {update}, {profit_margin}, {profit_per_item}, {demand_level}")
             
-            timed_route = TradeRoute(station_name, system_name, distance, resource, count, price, revenue, update, sell_percent, sell_per_item, demand, station_distance)
+            timed_route = TradeRoute(station_name, system_name, distance, resource, supply, demand, price, revenue, update, profit_margin, profit_per_item, demand_level, station_distance)
             timed_routes[station_name].append(timed_route)
-            # timed_routes.append(TradeRoute(station_name, system_name, distance, resource, count, price, revenue, update, sell_percent, sell_per_item, demand, station_distance))
+            # timed_routes.append(TradeRoute(station_name, system_name, distance, resource, supply, demand, price, revenue, update, profit_margin, profit_per_item, demand_level, station_distance))
         except Exception as e:
             this.LOG.write(f"[ERROR] [{PLUGIN_NAME} v{PLUGIN_VERSION}] {e}")
             this.LOG.write(f"[ERROR] [{PLUGIN_NAME} v{PLUGIN_VERSION}] {traceback.format_exc()}")
@@ -1354,7 +1365,7 @@ def parseData(html):
 
     if min_demand_filter > 0:
         for station in this.STATIONS:
-            tempRoutes = [route for route in timed_routes[station] if route.demand >= min_demand_filter]
+            tempRoutes = [route for route in timed_routes[station] if route.demand_level >= min_demand_filter]
             if len(tempRoutes) > 0:
                 this.ROUTES[station] = tempRoutes
     else:
@@ -1368,10 +1379,10 @@ def parseData(html):
         tempActualStations = list(this.ROUTES.keys())
         if this.SORTING['MARGIN']:
             for station in tempActualStations:
-                this.ROUTES[station].sort(key=lambda x: x.sell_percent, reverse=True)
+                this.ROUTES[station].sort(key=lambda x: x.profit_margin, reverse=True)
         if this.SORTING["DEMAND"]:
             for station in tempActualStations:
-                this.ROUTES[station].sort(key=lambda x: x.demand, reverse=True)
+                this.ROUTES[station].sort(key=lambda x: x.demand_level, reverse=True)
     except Exception as e:
             this.LOG.write(f"[ERROR] [{PLUGIN_NAME} v{PLUGIN_VERSION}] on sorting routes: {e}")
             this.LOG.write(f"[ERROR] [{PLUGIN_NAME} v{PLUGIN_VERSION}] {traceback.format_exc()}")
@@ -1381,7 +1392,7 @@ def parseData(html):
 
 def renderRoute(route):
     if int(config.get(this.PREFNAME_DEBUG_MODE)):
-        this.LOG.write(f"[DEBUG] [{PLUGIN_NAME} v{PLUGIN_VERSION}] Render route: {route.station_name}, {route.system_name}, {route.distance}, {route.station_distance}, {route.resource}, {route.count}, {route.price}, {route.revenue}, {route.update}, {route.sell_percent}, {route.sell_per_item}, {route.demand}")
+        this.LOG.write(f"[DEBUG] [{PLUGIN_NAME} v{PLUGIN_VERSION}] Render route: {route.station_name}, {route.system_name}, {route.distance}, {route.station_distance}, {route.resource}, {route.supply}, {route.demand}, {route.price}, {route.revenue}, {route.update}, {route.profit_margin}, {route.profit_per_item}, {route.demand_level}")
     try:
         pl1 = quote(this.STATION+" ["+this.STAR_SYSTEM+"]")
         # Переворачивание значений для фильтра по кораблям-носителям
@@ -1399,16 +1410,16 @@ def renderRoute(route):
         url = this.SEARCH_URL+"?ps1="+str(pl1)+"&ps2="+str(quote(route.station_name + ' [' + route.system_name + ']'))+"&pi1="+str(config.get(this.PREFNAME_MAX_ROUTE_DISTANCE))+"&pi3="+str(config.get(this.PREFNAME_MAX_PRICE_AGE))+"&pi4="+str(config.get(this.PREFNAME_LANDING_PAD))+"&pi6="+str(config.get(this.PREFNAME_MAX_STATION_DISTANCE))+"&pi5="+str(surface)+"&pi7="+str(cariers)+"&ps3=&pi2="+str(config.get(this.PREFNAME_MIN_SUPPLY))+"&pi13="+str(config.get(this.PREFNAME_MIN_DEMAND))+"&pi10="+str(config.get(this.PREFNAME_MIN_CAPACITY))+"&pi8=0"
 
         demandText = "📶"
-        this.labels.demand["fg"] = "#ffcc00"
-        match route.demand:
+        this.labels.demand_level["fg"] = "#ffcc00"
+        match route.demand_level:
             case 0:
-                this.labels.demand["fg"] = "#636362"
+                this.labels.demand_level["fg"] = "#636362"
             case 1:
-                this.labels.demand["fg"] = "#ff0000"
+                this.labels.demand_level["fg"] = "#ff0000"
             case 2:
-                this.labels.demand["fg"] = "#ffcc00"
+                this.labels.demand_level["fg"] = "#ffcc00"
             case 3:
-                this.labels.demand["fg"] = "#4dff00"
+                this.labels.demand_level["fg"] = "#4dff00"
 
         this.labels.stationsCountLabel["text"] = f"{this.STATION_INDEX+1}/{this.STATIONS_COUNT}"
         this.labels.itemsCountLabel["text"] = f"{this.ROUTE_INDEX+1}/{this.ROUTES_COUNT[this.STATIONS[this.STATION_INDEX]]}"
@@ -1418,19 +1429,20 @@ def renderRoute(route):
         this.labels.distance["text"] = f"{route.distance} | {route.station_distance}св.c"
 
         this.labels.resource["text"] = ITEMS.get(route.resource, route.resource)
-        this.labels.demand["text"] = demandText
+        this.labels.demand_level["text"] = demandText
         if route.resource in ITEMS_ID:
             item_url = f"https://inara.cz/elite/commodities/?formbrief=1&pi1=1&pa1[]={quote(ITEMS_ID.get(route.resource, route.resource))}&ps1={quote(this.STAR_SYSTEM)}&pi10=3&pi11={config.get(this.PREFNAME_MAX_ROUTE_DISTANCE)}&pi3={config.get(this.PREFNAME_LANDING_PAD)}&pi9={config.get(this.PREFNAME_MAX_STATION_DISTANCE)}&pi4={config.get(this.PREFNAME_INCLUDE_SURFACES)}&pi8={cariers}&pi13=2&pi5={config.get(this.PREFNAME_MAX_PRICE_AGE)}&pi12=0&pi7={config.get(this.PREFNAME_MIN_SUPPLY)}&pi14=0&ps3="
             this.labels.resource["url"] = item_url
         else:
             this.labels.resource["url"] = f"https://elite-dangerous.fandom.com/wiki/{quote(route.resource)}"
 
-        this.labels.supply["text"] = f"{int(route.count):,} Ед"
+        this.labels.supply["text"] = f"{int(route.supply):,} т"
+        this.labels.demand["text"] = f"{int(route.demand):,} т"
         this.labels.price["text"] = f"{int(route.price):,} Кр"
 
-        this.labels.earn["text"] = f"{int(route.revenue):,} Кр"
-        this.labels.detailEarn["text"] = f"+{int(route.sell_per_item):,} Кр/Ед"
-        this.labels.margin["text"] = f"+{int(route.sell_percent):,}%"
+        this.labels.profit["text"] = f"{int(route.revenue):,} Кр"
+        this.labels.detailEarn["text"] = f"{int(route.profit_per_item):,} Кр/т"
+        this.labels.margin["text"] = f"{int(route.profit_margin):,}%"
 
         this.labels.updated["text"] = route.update
         setStateBtn(tk.NORMAL)
@@ -1442,7 +1454,7 @@ def clearRoute():
     try:
         pl1 = quote(this.STATION+" ["+this.STAR_SYSTEM+"]")
         demandText = "📶"
-        this.labels.demand["fg"] = "#636362"
+        this.labels.demand_level["fg"] = "#636362"
 
         this.labels.stationsCountLabel["text"] = "-/-"
         this.labels.itemsCountLabel["text"] = "-/-"
@@ -1450,11 +1462,12 @@ def clearRoute():
         this.labels.place["url"] = ""
         this.labels.distance["text"] = "-|-"
         this.labels.resource["text"] = ""
-        this.labels.demand["text"] = demandText
+        this.labels.demand_level["text"] = demandText
         this.labels.resource["url"] = ""
         this.labels.supply["text"] = ""
+        this.labels.demand["text"] = ""
         this.labels.price["text"] = ""
-        this.labels.earn["text"] = ""
+        this.labels.profit["text"] = ""
         this.labels.detailEarn["text"] = ""
         this.labels.margin["text"] = ""
         this.labels.updated["text"] = ""
